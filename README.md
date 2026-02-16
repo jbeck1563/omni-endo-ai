@@ -42,7 +42,7 @@ Managing Type 1 Diabetes is hard, but placating a user doesn't improve Time-in-R
 
 ---
 
-### 🧠 The "No-API" Philosophy (Why this is different)
+## 🧠 The "No-API" Philosophy (Why this is different)
 Most AI tools require "API Keys"—which are essentially digital credit cards. If I had built this using APIs:
 * **You would have to pay:** Every time the AI analyzed your data, you'd be charged a small fee.
 * **You'd be "Locked In":** You would be forced to use whatever AI model I chose for you.
