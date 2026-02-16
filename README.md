@@ -35,7 +35,7 @@ Because this involves sensitive medical credentials and data, I have designed th
 
 ---
 
-## 🧠 The "Tough Love" AI Persona
+## 🧐 The "Tough Love" AI Persona
 I have purposefully configured the built-in AI prompt to act as a **"Tough Love" Endocrinologist**. 
 
 Managing Type 1 Diabetes is hard, but placating a user doesn't improve Time-in-Range (TIR). The AI is designed to be direct, analytical, and uncompromising. It won't sugar-coat the data; it will tell you exactly where your bolus timing is off, where you are over-correcting, or where your basal rates are failing to catch a drift.
