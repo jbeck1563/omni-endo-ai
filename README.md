@@ -28,21 +28,32 @@ Most AI tools require "API Keys"—which are essentially digital credit cards. I
 
 ---
 
+> [!WARNING]
+> Be aware that all links in this document will take you away from this page. To force a new tab, right click and select **Open Link in New Tab**.
+
 ## 🛠️ Step 1: Getting Ready (Installing Docker)
 To run this tool, we use a piece of software called **Docker**. Think of Docker as a "shipping container" for applications. It ensures that Omni-Endo AI runs perfectly on your computer without you having to install and configure complicated code libraries.
 
+This may require a restart of your machine, so make sure you are in a position to do this before starting.
+
 ### **For Windows Users**
-1. **Download:** Go to the [Docker installation instructions for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) page and click **Download for Windows**.
+1. **Download:** Go to the [Docker installation instructions for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) page, read the descriptions of the different installs and download the one which best suits your machine. It is likely to be this **Docker Desktop for Windows - x86_64** for most users.
 2. **Install:** Run the `.exe` file. **Important:** During installation, ensure the box that says **"Use WSL 2 instead of Hyper-V"** is checked.
 3. **Restart:** Your computer will likely ask you to restart.
 4. **Start:** After restarting, open the "Docker Desktop" app from your Start Menu. Accept the terms of service.
 
+>[!WARNING]
+> You may see a WSL version issue. If so, take a look [here](https://docs.docker.com/desktop/setup/install/windows-install/#option-1-install-or-update-wsl-via-the-terminal) to solve this.
+
 ### **For Mac Users**
 1. **Download:** Go to the [Docker installation instructions for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) page. 
-   - Choose **"Apple Chip"** if you have a newer Mac (M1, M2, M3).
+   - Choose **"Apple Chip"** if you have a newer Mac (M1, M2, M3, M4).
    - Choose **"Intel Chip"** if you have an older Mac.
 2. **Install:** Open the `.dmg` file and drag the Docker icon into your **Applications** folder.
 3. **Start:** Open Docker from your Applications folder. You may need to enter your Mac password to grant it permission to run.
+
+>[!NOTE]
+> If you are interested in other potential uses for Docker on your machine, take a look at [Awesome Compose](https://github.com/docker/awesome-compose/tree/master).
 
 ---
 
@@ -178,9 +189,11 @@ When you are finished, go back to your Terminal/PowerShell window and press **Ct
 ---
 
 ## 🛠️ Troubleshooting
-"Command not found": Make sure Docker Desktop is open and running.
+>[!NOTE]
+> This section will grow over time. If you have any issues with this please contact me with a description and I will look into helping you sort it.
 
-"Port already in use": If you see an error about port 4000, another app is using it. Open docker-compose.yml in Notepad and change "4000:4000" to "5000:4000", then try again at http://localhost:5000.
+**1. "Port already in use":** 
+If you see an error about port 4000, another app is using it. Open docker-compose.yml in Notepad and change "4000:4000" to "5000:4000", restart the Docker container and then try again at http://localhost:5000.
 
 ### **Disclaimer**
 *This tool is for informational and educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Use of AI analysis should always be reviewed by a qualified clinical professional before making any changes to your insulin therapy or medical regimen.*
