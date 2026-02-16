@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omni-Endo-AI</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* THEME CONFIGURATION */
+        :root {
+            --primary: #0062ff;
+            --primary-light: #e6f0ff;
+            --success: #21a44a;
+            --dark: #0f172a;
+            --secondary: #64748b;
+            --bg: #f1f5f9;
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --border: #e2e8f0;
+        }
+
+        /* RESET & BASE STYLES */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg);
+            color: #1e293b;
+            margin: 0;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 30px;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: var(--dark);
+            color: white;
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .nav-logo span {
+            color: var(--primary);
+        }
+
+        /* STEPPER */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3.5rem;
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .stepper::before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #cbd5e1;
+            z-index: 0;
+        }
+
+        .step {
+            position: relative;
+            z-index: 1;
+            background: var(--bg);
+            padding: 0 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .step-num {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            color: white;
+            font-weight: 700;
+            border: 4px solid var(--bg);
+            transition: 0.4s;
+        }
+
+        .step.active .step-num {
+            background: var(--primary);
+            transform: scale(1.15);
+            box-shadow: 0 10px 15px -3px rgba(0, 98, 255, 0.3);
+        }
+
+        .step-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        /* CARDS & UI COMPONENTS */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input,
+        select {
+            padding: 12px 16px;
+            border: 2px solid #f1f5f9;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            outline: none;
+            background: white;
+        }
+
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--secondary);
+            border: 2px solid #e2e8f0;
+        }
+
+        #output {
+            width: 100%;
+            height: 350px;
+            background: #0f172a;
+            color: #10b981;
+            padding: 25px;
+            border-radius: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            overflow: auto;
+            box-sizing: border-box;
+        }
+
+        .export-card {
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 18px;
+            transition: 0.3s;
+        }
+
+        .export-card:hover {
+            border-color: var(--primary);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading-ring {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div class="nav-logo">OMNI-ENDO<span> AI</span></div>
+    </div>
+
+    <div class="container">
+        <div class="stepper">
+            <div class="step active" id="s1" onclick="setStep(1)">
+                <div class="step-num">1</div>
+                <div class="step-text">Ingestion</div>
+            </div>
+            <div class="step" id="s2" onclick="setStep(2)">
+                <div class="step-num">2</div>
+                <div class="step-text">Triage</div>
+            </div>
+            <div class="step" id="s3" onclick="setStep(3)">
+                <div class="step-num">3</div>
+                <div class="step-text">Audit</div>
+            </div>
+        </div>
+
+        <div id="step1Container" class="card">
+            <h3>Clinical Data Acquisition</h3>
+            <div class="grid-3">
+                <div class="input-group"><label>Glooko Email</label><input type="email" id="username"></div>
+                <div class="input-group"><label>Glooko Password</label><input type="password" id="password"></div>
+                <div class="input-group">
+                    <label>Reporting Units</label>
+                    <select id="unitToggle">
+                        <option value="mmol">mmol/L (Standard)</option>
+                        <option value="mgdl">mg/dL (US/Traditional)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid-3">
+                <div class="input-group"><label>Analysis Window Start</label><input type="datetime-local" id="start"
+                        step="0.001"></div>
+                <div class="input-group"><label>Analysis Window End</label><input type="datetime-local" id="end"
+                        step="0.001"></div>
+                <div style="display:flex; gap:10px;">
+                    <div class="input-group" style="flex:1"><label>Hypo</label><input type="number" id="lowerLimit"
+                            value="3.9" step="0.1"></div>
+                    <div class="input-group" style="flex:1"><label>Hyper</label><input type="number" id="upperLimit"
+                            value="10.0" step="0.1"></div>
+                </div>
+            </div>
+            <div
+                style="margin-top: 30px; display: flex; gap: 20px; align-items: center; border-top: 1px solid var(--border); padding-top: 30px;">
+                <button id="fetchBtn" class="btn-primary">Connect & Generate Triage</button>
+                <input type="file" id="fileUpload" class="hidden" accept=".json">
+                <button onclick="document.getElementById('fileUpload').click()" class="btn-secondary">Upload Offline
+                    Session</button>
+            </div>
+            <div class="status-bar" style="display:flex; align-items:center; gap:15px; margin-top:20px;">
+                <div class="loading-ring" id="loading"></div>
+                <div id="status">Ready.</div>
+            </div>
+        </div>
+
+        <div id="step2Container" class="card hidden">
+            <div class="guide-text">
+                <p><strong>Phase 1: Initial Triage.</strong> To begin the clinical audit, follow these steps:</p>
+                <ol style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>Click <strong>"Copy Prompt for AI"</strong> to copy the clinical metadata to your clipboard.
+                    </li>
+                    <li>Open an AI collaborator (LLM) in a new window:
+                        <a href="https://gemini.google.com" target="_blank" rel="noopener"
+                            style="color: #854d0e; text-decoration: underline;">Gemini</a> |
+                        <a href="https://chatgpt.com" target="_blank" rel="noopener"
+                            style="color: #854d0e; text-decoration: underline;">ChatGPT</a> |
+                        <a href="https://claude.ai" target="_blank" rel="noopener"
+                            style="color: #854d0e; text-decoration: underline;">Claude</a>
+                    </li>
+                    <li>Paste the prompt and review the Triage results.</li>
+                </ol>
+
+                <small><em>Note: If the AI requests high-fidelity data, proceed to Step 3 (Audit) below.</em></small>
+                <p><strong>Save Session Data:</strong> To save the data from Glooko for future reuse, click "Save
+                    Session".</p>
+            </div>
+            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Clinical Auditor Prompt</h3>
+                <div style="display:flex; gap:12px;">
+                    <button id="downloadRawBtn" class="btn-secondary">Save Session</button>
+                    <button id="copyBtn" class="btn-success">📋 Copy Prompt for AI</button>
+                </div>
+            </div>
+            <div id="output"></div>
+        </div>
+
+        <div id="step3Container" class="card hidden">
+            <h3>Deep-Dive Audit Exports</h3>
+
+            <div class="guide-text"
+                style="background: var(--primary-light); border-left-color: var(--primary); color: var(--dark);">
+                <strong>Phase 2: Data Extraction.</strong>
+                Look at the response from your AI collaborator. It should have identified a 48-72 hour <strong>"Critical
+                    Interest Window"</strong>.
+                <ol style="margin-top: 10px; margin-left: 20px;">
+                    <li>Adjust the <strong>Audit Start/End</strong> dates below to match that window.</li>
+                    <li>Download the files requested by the AI (usually the Timeline or Bolus Log).</li>
+                    <li>Upload those files to the same AI conversation to perform the granular audit.</li>
+                </ol>
+            </div>
+
+            <div
+                style="background: var(--bg); padding: 25px; border-radius: 15px; border: 1px solid var(--border); margin-bottom: 30px;">
+                <label style="display:block; margin-bottom:15px;">Target Audit Window (Reference AI Triage
+                    response)</label>
+                <div style="display:flex; gap:20px;">
+                    <div class="input-group" style="flex:1; margin-bottom:0;"><label>Window Start</label><input
+                            type="datetime-local" id="subsetStart" step="0.001"></div>
+                    <div class="input-group" style="flex:1; margin-bottom:0;"><label>Window End</label><input
+                            type="datetime-local" id="subsetEnd" step="0.001"></div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="export-card">
+                    <h4>Glucose Timeline</h4>
+                    <p><strong>Contents:</strong> Every CGM data point in the window plus 5-minute glucose velocity.
+                        <br><br>
+                        <strong>Use Case:</strong> Best for analyzing overnight stability and long-term basal efficacy.
+                    </p>
+                    <button onclick="downloadSubset('timeline')" class="btn-primary">Download Timeline</button>
+                </div>
+                <div class="export-card">
+                    <h4>Enriched Bolus Log</h4>
+                    <p><strong>Contents:</strong> Bolus events matched with glucose at delivery, active ISF, CR, Target,
+                        and DIA.<br><br>
+                        <strong>Use Case:</strong> Identifying insulin stacking and verifying bolus calculator accuracy.
+                    </p>
+                    <button onclick="downloadSubset('bolus')" class="btn-primary">Download Log</button>
+                </div>
+                <div class="export-card">
+                    <h4>Hourly Trends</h4>
+                    <p><strong>Contents:</strong> Aggregated TIR and Average Glucose distributed by clock-hour.<br><br>
+                        <strong>Use Case:</strong> Finding recurring circadian patterns like the Dawn Phenomenon.
+                    </p>
+                    <button onclick="downloadSubset('hourly')" class="btn-primary">Download Trends</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /**
+         * APPLICATION STATE & LOGIC
+         */
+        let rawDataInMemory = null;
+        let processedTimeline = [];
+        let activeSettings = null;
+        let statsData = null;
+
+        /**
+         * UI Navigation: Manages stepper and container visibility
+         */
+        function setStep(num) {
+            // Safety check: Prevent jumping to Step 2 or 3 if no data exists yet
+            if (num > 1 && !rawDataInMemory) {
+                document.getElementById('status').innerText = "Please load data before proceeding.";
+                return;
+            }
+
+            document.querySelectorAll('.step').forEach((s, i) => s.classList.toggle('active', (i + 1) <= num));
+            document.getElementById('step1Container').classList.toggle('hidden', num !== 1);
+            document.getElementById('step2Container').classList.toggle('hidden', num !== 2);
+            document.getElementById('step3Container').classList.toggle('hidden', num !== 3);
+
+            if (num > 1) window.scrollTo({ top: document.querySelector('.stepper').offsetTop, behavior: 'smooth' });
+        }
+
+        // Initialize default analysis window (Last 24 Hours)
+        const d = new Date();
+        document.getElementById('start').value = new Date(d.getTime() - (24 * 60 * 60 * 1000) - d.getTimezoneOffset() * 60000).toISOString().slice(0, 23);
+        document.getElementById('end').value = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 23);
+
+        /**
+         * Clinical Thresholds: Standardizes units
+         */
+        function getThresholds() {
+            const unit = document.getElementById('unitToggle').value;
+            let low = parseFloat(document.getElementById('lowerLimit').value);
+            let high = parseFloat(document.getElementById('upperLimit').value);
+            if (unit === 'mgdl') { low /= 18.0182; high /= 18.0182; }
+            return { low, high };
+        }
+
+        function calculateTIRMetrics(bgValues) {
+            if (!bgValues?.length) return { tir: 0, low: 0, high: 0 };
+            const { low, high } = getThresholds();
+            const inRange = bgValues.filter(v => v >= low && v <= high).length;
+            const lowCount = bgValues.filter(v => v < low).length;
+            const highCount = bgValues.filter(v => v > high).length;
+            return {
+                tir: (inRange / bgValues.length) * 100,
+                low: (lowCount / bgValues.length) * 100,
+                high: (highCount / bgValues.length) * 100
+            };
+        }
+
+        /**
+         * Adaptive Settings: Extracts chronological changes
+         */
+        function getActiveSettings(json, startDate, endDate) {
+            if (!json?.deviceSettings?.pumps) return [];
+            const startEpoch = new Date(startDate).getTime();
+            const endEpoch = new Date(endDate).getTime();
+            const pumps = json.deviceSettings.pumps;
+            let flatHistory = [];
+
+            Object.keys(pumps).forEach(guid => {
+                Object.keys(pumps[guid]).forEach(ts => {
+                    flatHistory.push({ timestamp: ts, epoch: new Date(ts).getTime(), data: pumps[guid][ts] });
+                });
+            });
+
+            flatHistory.sort((a, b) => a.epoch - b.epoch);
+            const baselineIdx = flatHistory.findLastIndex(s => s.epoch <= startEpoch);
+            const startIndex = baselineIdx !== -1 ? baselineIdx : 0;
+
+            return flatHistory
+                .slice(startIndex)
+                .filter(item => item.epoch <= endEpoch)
+                .map(item => ({ activeTimestamp: item.timestamp, settings: item.data }));
+        }
+
+        /**
+         * Data Processing: Unifies CGM and Bolus events
+         */
+        function processUnifiedGlookoData(rawJson) {
+            const series = rawJson.series;
+            const allCgm = [...series.cgmHigh, ...series.cgmNormal, ...series.cgmLow].sort((a, b) => a.x - b.x);
+            const cleanCgm = []; const seenBuckets = new Set();
+            const dateCfg = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+
+            allCgm.forEach((p) => {
+                const bucket = Math.floor(p.x / 300) * 300;
+                if (!seenBuckets.has(bucket)) {
+                    seenBuckets.add(bucket);
+                    let vel = cleanCgm.length > 0 ? parseFloat((p.y - cleanCgm[cleanCgm.length - 1].val).toFixed(2)) : 0;
+                    cleanCgm.push({ epoch: p.x, type: 'CGM', val: p.y, vel, time: new Date(p.x * 1000).toLocaleString([], dateCfg) });
+                }
+            });
+
+            const boluses = series.deliveredBolus.map(b => {
+                let cat = "Unknown";
+                if (!b.isManual && b.carbsInput > 0 && b.insulinRecommendationForCorrection === 0) cat = "Meal Bolus";
+                else if (b.isManual && b.carbsInput === 0) cat = "Manual Correction Bolus";
+                else if (!b.isManual && b.carbsInput === 0 && b.insulinRecommendationForCorrection > 0) cat = "System Correction Bolus";
+                else if (!b.isManual && b.carbsInput > 0 && b.insulinRecommendationForCorrection > 0) cat = "Meal With Correction Bolus";
+                return { epoch: b.x, type: 'BOLUS', units: b.y, carbs: b.carbsInput, iob: b.insulinOnBoard, class: cat, time: new Date(b.x * 1000).toLocaleString([], dateCfg) };
+            });
+
+            return [...cleanCgm, ...boluses].sort((a, b) => a.epoch - b.epoch);
+        }
+
+        /**
+         * Trends Calculation: Circadian distribution
+         */
+        function calculateHourly(timeline) {
+            const hourly = {};
+            const cgm = timeline.filter(i => i.type === 'CGM');
+            if (!cgm.length) return [];
+            cgm.forEach(p => {
+                const h = new Date(p.epoch * 1000).getHours();
+                if (!hourly[h]) hourly[h] = [];
+                hourly[h].push(p.val);
+            });
+            return Object.keys(hourly).map(h => {
+                const metrics = calculateTIRMetrics(hourly[h]);
+                return { hour: h.padStart(2, '0') + ":00", avg: +(hourly[h].reduce((a, b) => a + b, 0) / hourly[h].length).toFixed(2), tir: +metrics.tir.toFixed(2), low: +metrics.low.toFixed(2), high: +metrics.high.toFixed(2) };
+            });
+        }
+
+        /**
+         * Interpolation: Metabolic state at time of delivery
+         */
+        function getInterpolatedBG(targetEpoch, timeline) {
+            const cgm = timeline.filter(i => i.type === 'CGM');
+            const before = [...cgm].reverse().find(i => i.epoch <= targetEpoch);
+            const after = cgm.find(i => i.epoch > targetEpoch);
+            if (!before || !after || (after.epoch - before.epoch) > 600) return before?.val || after?.val || null;
+            const weight = (targetEpoch - before.epoch) / (after.epoch - before.epoch);
+            return parseFloat((before.val + weight * (after.val - before.val)).toFixed(2));
+        }
+
+        /**
+         * Export Engine
+         */
+        function downloadSubset(type) {
+            const subStart = new Date(document.getElementById('subsetStart').value).getTime() / 1000;
+            const subEnd = new Date(document.getElementById('subsetEnd').value).getTime() / 1000;
+            const filtered = processedTimeline.filter(i => i.epoch >= subStart && i.epoch <= subEnd);
+            const settingsHistory = getActiveSettings(rawDataInMemory.data3, subStart * 1000, subEnd * 1000);
+
+            let data = []; let name = "OmniEndoAI_" + type;
+
+            if (type === 'timeline') data = filtered;
+            else if (type === 'bolus') {
+                data = filtered.filter(i => i.type === 'BOLUS').map(bolus => {
+                    const activeSetting = settingsHistory.findLast(s => (new Date(s.activeTimestamp).getTime() / 1000) <= bolus.epoch);
+                    const context = activeSetting ? {
+                        DIA: activeSetting.settings.generalSettings.activeInsulinTime,
+                        target: findActiveDataRecord(activeSetting.settings.profilesBolus[0].targetBgSegments.data, bolus.epoch),
+                        isf: findActiveDataRecord(activeSetting.settings.profilesBolus[0].isfSegments.data, bolus.epoch),
+                        active_cr: findActiveDataRecord(activeSetting.settings.profilesBolus[0].insulinToCarbRatioSegments.data, bolus.epoch)
+                    } : null;
+                    return { ...bolus, cgm_val: getInterpolatedBG(bolus.epoch, processedTimeline), context };
+                });
+            }
+            else if (type === 'hourly') data = calculateHourly(filtered);
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = `${name}.json`; a.click();
+        }
+
+
+        /**
+         * Utility: Finds the active setting value based on time segments
+         */
+        function findActiveDataRecord(data, epoch) {
+            const h = new Date(epoch * 1000).getHours();
+            const sorted = [...data].sort((a, b) => a.segmentStart - b.segmentStart);
+            const active = sorted.findLast(s => s.segmentStart <= h);
+            return active ? active.value : sorted[sorted.length - 1].value;
+        }
+
+        const formatHour = (h) => `${Math.floor(h)}:${(h % 1 === 0.5) ? '30' : '00'}`;
+
+        /**
+         * PROMPT GENERATION (CRITICAL: DO NOT MODIFY LOGIC)
+         */
+        function formatHeader(settings, stats, days, timeline) {
+            const formatDate = (date) => date.toISOString().replace('T', ' ').replace('Z', '.000Z');
+            const reportStart = formatDate(new Date(timeline[0].epoch * 1000));
+            const reportEnd = formatDate(new Date(timeline[timeline.length - 1].epoch * 1000));
+            const cgmVals = timeline.filter(i => i.type === 'CGM').map(i => i.val);
+
+            let avg = 0, std = 0, cv = 0, gmi = 0, tir = { tir: 0, low: 0, high: 0 };
+            if (cgmVals.length) {
+                avg = cgmVals.reduce((a, b) => a + b, 0) / cgmVals.length;
+                std = Math.sqrt(cgmVals.map(v => Math.pow(v - avg, 2)).reduce((a, b) => a + b, 0) / cgmVals.length);
+                cv = (std / avg) * 100; tir = calculateTIRMetrics(cgmVals);
+                gmi = (3.31 + (0.02392 * (avg * 18.0182))).toFixed(2);
+            }
+
+            const daily = {}; timeline.filter(i => i.type === 'CGM').forEach(p => { const k = new Date(p.epoch * 1000).toISOString().split('T')[0]; (daily[k] = daily[k] || []).push(p.val); });
+            let bestD = { d: "N/A", t: 0 }, worstD = { d: "N/A", t: 101 };
+            Object.keys(daily).forEach(k => { const t = calculateTIRMetrics(daily[k]).tir; if (t > bestD.t) { bestD = { d: k, t: t.toFixed(2) } } if (t < worstD.t) { worstD = { d: k, t: t.toFixed(2) } } });
+
+            const hourly = calculateHourly(timeline);
+            let bestH = { h: "N/A", t: 0 }, worstH = { h: "N/A", t: 101 };
+            hourly.forEach(hd => { if (hd.tir > bestH.t) { bestH = { h: hd.hour, t: hd.tir.toFixed(2) } } if (hd.tir < worstH.t) { worstH = { h: hd.hour, t: hd.tir.toFixed(2) } } });
+
+            const boluses = timeline.filter(i => i.type === 'BOLUS');
+            const counts = { m: boluses.filter(b => b.class === "Meal Bolus").length, u: boluses.filter(b => b.class === "Manual Correction Bolus").length, s: boluses.filter(b => b.class === "System Correction Bolus").length, h: boluses.filter(b => b.class === "Meal With Correction Bolus").length };
+
+            const settingsRows = settings.map(s => `[EFFECTIVE: ${s.activeTimestamp}]
+Duration of Insulin Action (DIA): ${s.settings.generalSettings.activeInsulinTime}h
+Max Basal Rate: ${s.settings.basalSettings.maxBasalRate}U/hr 
+Blood Sugar Target: ${s.settings.profilesBolus[0].targetBgSegments.data.map(sn => `${formatHour(sn.segmentStart)}=${sn.value}mmol/L`).join(" | ")}
+Insulin Sensitivity Factor (ISF): ${s.settings.profilesBolus[0].isfSegments.data.map(sn => `${formatHour(sn.segmentStart)}=1U:${sn.value}mmol/L`).join(" | ")}
+Carb Ratios: ${s.settings.profilesBolus[0].insulinToCarbRatioSegments.data.map(sn => `${formatHour(sn.segmentStart)}=1U:${sn.value}g`).join(" | ")}`).join('\n\n');
+
+            return `# PERSONA
+Act as a Senior Clinical Endocrinologist and Automated Insulin Delivery (AID) Systems Expert. You are a world-class authority on the Omnipod 5 (O5) SmartAdjust™ algorithm, metabolic trend analysis, and model predictive control adaptation. You say it as it is and do not try to soften interactions with patients to please them. You are not rude, but you are not trying to make friends.
+
+# MISSION
+Conduct a multi-phase clinical audit of the provided Omnipod 5 dataset. Your goal is to:
+1. **Analyze System Efficacy:** Determine if the O5 proactive logic is successfully maintaining the user's Target Glucose or if there is a persistent "metabolic drift."
+2. **Evaluate Adaptive Logic:** Assess how the algorithm is responding to the user's Total Daily Insulin (TDI) requirements across the analysis period.
+3. **Identify Systemic Mismatches:** Detect recurring anomalies (e.g., post-meal spikes, overnight instability, or suspension patterns) that suggest incorrect system parameters.
+4. **Audit Behavioral Interference:** Quantify the impact of manual overrides on the SmartAdjust™ adaptive learning process. Determine if user bolusing habits are 'blinding' the algorithm to the user's actual basal needs.
+
+# CLINICAL RESEARCH DIRECTIVE
+Before performing your triage, you MUST use your tools to perform a comprehensive research phase. Do not rely solely on internal training; find the latest clinical evidence. Your research must cover:
+- **Omnipod 5 Core Mechanics:** Research the SmartAdjust™ MPC algorithm, specifically how it weights the 48-72 hour TDI (Total Daily Insulin) history to set the Adaptive Basal Rate.
+- **Clinical Best Practices:** Search for the latest consensus on O5 settings optimization (ISF, CR, and the 2-hour DIA constraint).
+- **Data-Driven Deep Dive:** Based on the specific anomalies you find in the [DATA] below, research relevant studies or "real-world evidence" papers that address similar glycemic patterns (e.g., O5 performance during high variability, exercise, or prolonged hyperglycemia).
+
+# WORKFLOW PROTOCOL
+1. **PHASE 1: INITIAL TRIAGE [CURRENT STEP]:** Analyze high-level aggregates. Evaluate Basal-to-Bolus partitioning and Automated Mode utilization.
+2. **PHASE 2: CONTEXTUAL INQUIRY:** Based on the data found in Phase 1, ask the user specific questions regarding behaviors, habits, or trust in the system to explain statistical outliers.
+3. **PHASE 3: ANOMALY SELECTION:** Identify a 48-72 hour "Critical Interest Window" for deep-dive analysis.
+4. **PHASE 4: HIGH-FIDELITY AUDIT:** Conduct a granular timeline audit using requested JSON subsets.
+
+# CONSTRAINTS & FORMATTING
+- **Date Format:** All timestamps MUST be referenced as "yyyy-MM-dd HH:mm:ss.SSSZ".
+- **O5 Specificity:** All findings must be contextualized within O5's unique 2-hour Duration of Insulin Action (DIA) constraint and Target-centric logic.
+- **Strict Logic:** Do not offer final medical conclusions until Phase 3. Your first response must focus on Triage, Research, and Data Selection.
+
+---\n
+=== REPORT DATE RANGE ===
+Start: ${reportStart}
+End:   ${reportEnd}
+
+=== SYSTEM SETTINGS (Over Period) ===
+${settingsRows}
+
+=== CLINICAL PERFORMANCE (Calculated + data2) ===
+Analysis Period: ${days.toFixed(2)} days
+[GLUCOSE CONTROL]
+• Average Blood Glucose (Avg BG) (Mean): ${avg.toFixed(2)} mmol/L
+• Glucose Management Indicator (GMI) (Est. A1c): ${gmi}%
+• Standard Deviation (Std Dev): ${std.toFixed(2)}
+• Coefficient of Variation (CV): ${cv.toFixed(2)}% ${cv > 36 ? '(High Variability)' : '(Stable)'}
+• Time In Range (TIR) (${document.getElementById('lowerLimit').value}-${document.getElementById('upperLimit').value}): ${tir.tir.toFixed(2)}% | Low: ${tir.low.toFixed(2)}% | High: ${tir.high.toFixed(2)}%
+
+[BEST/WORST DAYS]
+• Best Day: ${bestD.d} (${bestD.t}% TIR)
+• Worst Day: ${worstD.d} (${worstD.t}% TIR)
+
+[BEST/WORST HOURS]
+• Best Hour: ${bestH.h} (${bestH.t}% TIR)
+• Worst Hour: ${worstH.h} (${worstH.t}% TIR)
+
+[INSULIN DELIVERY]
+• Total Daily Dose (TDD): ${stats.totalInsulinPerDay.toFixed(2)}U
+• Basal: ${stats.basalUnitsPerDay.toFixed(2)}U (${stats.basalPercentage}%)
+• Bolus: ${stats.bolusUnitsPerDay.toFixed(2)}U (${stats.bolusPercentage}%)
+• Avg Individual Bolus: ${stats.averageIndividualBolus.toFixed(2)}U
+• Daily Bolus Events: ${stats.numOfBolusesPerDay}
+
+[BOLUS ARCHITECTURE]
+• Meal Boluses (Carbs only): ${counts.m}
+• System Correction Bolus (Suggested 0-carb): ${counts.s}
+• Meals With Correction Boluses (Meal + Correction): ${counts.h}
+• Manual Correction Boluses (Manual 0-carb): ${counts.u}
+
+[CARBOHYDRATES & ACTIVITY]
+• Avg Daily Carbs: ${stats.carbsPerDay.toFixed(0)}g
+• Total Carbs for Period: ${stats.totalCarbs}g
+• Avg Carb Entries: ${stats.carbEntriesPerDay} per day
+• Avg Daily Steps: ${stats.averageSteps.toFixed(0)}
+
+[SYSTEM AUTOMATION]
+• Automated Mode: ${stats.op5PumpModeAutomaticPercentage}%
+==========================================\n
+
+---
+
+# INSTRUCTIONS FOR YOUR FIRST RESPONSE
+1. **Clinical Snapshot:** Professional summary of status vs. gold standards.
+2. **Algorithm Triage:** Analyze Basal/Bolus balance.
+3. **Behavioral Curiosity:** Identify anomalies and ask the user to explain intent.
+4. **Targeted Data Request:** Identify the deep-dive window range.
+
+[STOP] Awaiting Triage & Research Selection.`;
+        }
+
+        /**
+         * INITIALIZATION & EVENT LISTENERS
+         */
+
+        async function finalizeDataLoad(master) {
+            // 1. Establish the source of truth from the master object
+            rawDataInMemory = master;
+
+            // 2. Map the UI dates to match the data actually contained in the file/fetch
+            // This ensures Step 1 reflects the actual window of the uploaded session
+            const startVal = new Date(master.startDate).toISOString().slice(0, 23);
+            const endVal = new Date(master.endDate).toISOString().slice(0, 23);
+
+            document.getElementById('start').value = startVal;
+            document.getElementById('end').value = endVal;
+
+            // 3. Process the clinical metadata
+            activeSettings = getActiveSettings(master.data3, master.startDate, master.endDate);
+            processedTimeline = processUnifiedGlookoData(master.data1);
+            statsData = master.data2;
+
+            // 4. Calculate the analysis period duration
+            const days = (new Date(processedTimeline[processedTimeline.length - 1].epoch * 1000) -
+                new Date(processedTimeline[0].epoch * 1000)) / (1000 * 60 * 60 * 24);
+
+            // 5. Generate the AI Auditor Prompt
+            document.getElementById('output').innerText = formatHeader(activeSettings, statsData, days, processedTimeline);
+
+            // 6. Synchronize the Step 3 (Audit) dates to the session window
+            // This is the "Pivot Point" where the Deep-Dive window is initialized
+            document.getElementById('subsetStart').value = startVal;
+            document.getElementById('subsetEnd').value = endVal;
+
+            setStep(2);
+        }
+
+
+
+
+        document.getElementById('fetchBtn').onclick = async () => {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            if (!user || !pass) return alert("Credentials required.");
+            document.getElementById('loading').style.display = "block";
+            document.getElementById('status').innerText = "Connecting...";
+            try {
+                const res = await fetch(`/my-data`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass, startDate: new Date(document.getElementById('start').value).toISOString(), endDate: new Date(document.getElementById('end').value).toISOString() })
+                });
+                const master = await res.json();
+                if (master.error) throw new Error(master.error);
+                await finalizeDataLoad(master);
+            } catch (err) { document.getElementById('status').innerText = "Error: " + err.message; }
+            finally { document.getElementById('loading').style.display = "none"; }
+        };
+
+        document.getElementById('fileUpload').onchange = (e) => {
+            const reader = new FileReader();
+            reader.onload = async (ev) => { try { await finalizeDataLoad(JSON.parse(ev.target.result)); } catch (err) { alert("Invalid session file."); } };
+            reader.readAsText(e.target.files[0]);
+        };
+
+        document.getElementById('copyBtn').onclick = () => {
+            navigator.clipboard.writeText(document.getElementById('output').innerText);
+            document.getElementById('copyBtn').innerText = "✅ Prompt Transmitted";
+            setTimeout(() => { document.getElementById('copyBtn').innerText = "📋 Copy Prompt for AI"; setStep(3); }, 1200);
+        };
+
+        document.getElementById('downloadRawBtn').onclick = () => {
+            const blob = new Blob([JSON.stringify(rawDataInMemory, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = window.URL.createObjectURL(blob);
+            a.download = `OmniEndoAI_Session_${new Date().toISOString().slice(0, 10)}.json`; a.click();
+        };
+    </script>
+</body>
+
+</html>
