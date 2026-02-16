@@ -1,0 +1,18 @@
+# Dependency directories (Docker will install its own)
+node_modules
+npm-debug.log
+
+# Local environment/secrets
+.env
+
+# Git metadata
+.git
+.gitignore
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Project documentation/images (Keep these on GitHub, not in the app)
+images/
+README.md
