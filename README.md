@@ -86,7 +86,7 @@ Now we tell Docker to "turn on" the tool.
 1. **Open your Browser:** Go to http://localhost:4000.
 2. **Enter Credentials:** Enter your Glooko login details. 
    > **Privacy Note:** These details are **not** sent to me. They are sent directly from your computer to Glooko's servers to fetch your data.
-3. **Generate Report:** Once the data is fetched, the tool will create a "Clinical Audit Summary."
+3. **Generate Report:** Once the data is fetched, the tool will create a "Clinical Audit Summary". It will also give you an opportunity to save the content you have downloaded by hitting the "Save Session" button on phase 2. Needs elaborating with images.
 4. **The AI Hand-off:**
    - Click the **"Copy for AI"** button.
    - Open your favorite AI (e.g., [chatgpt.com](https://chatgpt.com)).
@@ -99,6 +99,11 @@ Now we tell Docker to "turn on" the tool.
 When you are finished, go back to your Terminal/PowerShell window and press **Ctrl + C**. This will turn off the server.
 
 ---
+
+## 🛠️ Troubleshooting
+"Command not found": Make sure Docker Desktop is open and running.
+
+"Port already in use": If you see an error about port 4000, another app is using it. Open docker-compose.yml in Notepad and change "4000:4000" to "5000:4000", then try again at http://localhost:5000.
 
 ### **Disclaimer**
 *This tool is for informational and educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Use of AI analysis should always be reviewed by a qualified clinical professional before making any changes to your insulin therapy or medical regimen.*
