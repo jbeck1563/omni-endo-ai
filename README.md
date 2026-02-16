@@ -84,9 +84,28 @@ Now we tell Docker to "turn on" the tool.
 ## 💻 Step 4: Using the Web Page
 
 1. **Open your Browser:** Go to http://localhost:4000.
+   
+   <kbd><img src="images/usage_1.png" width="900"></kbd>
 2. **Enter Credentials:** Enter your Glooko login details. 
+
+   <kbd><img src="images/usage_2.png" width="900"></kbd>
+   
    > **Privacy Note:** These details are **not** sent to me. They are sent directly from your computer to Glooko's servers to fetch your data.
 3. **Generate Report:** Once the data is fetched, the tool will create a "Clinical Audit Summary". It will also give you an opportunity to save the content you have downloaded by hitting the "Save Session" button on phase 2. Needs elaborating with images.
+
+   <kbd><img src="images/usage_3.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_4.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_5.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_6.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_7.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_8.png" width="900"></kbd>
+
+   <kbd><img src="images/usage_9.png" width="900"></kbd>
 4. **The AI Hand-off:**
    - Click the **"Copy for AI"** button.
    - Open your favorite AI (e.g., [chatgpt.com](https://chatgpt.com)).
