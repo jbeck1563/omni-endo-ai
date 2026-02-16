@@ -32,21 +32,17 @@ Most AI tools require "API Keys"—which are essentially digital credit cards. I
 To run this tool, we use a piece of software called **Docker**. Think of Docker as a "shipping container" for applications. It ensures that Omni-Endo AI runs perfectly on your computer without you having to install and configure complicated code libraries.
 
 ### **For Windows Users**
-1. **Download:** Go to the <a href="https://www.docker.com/products/docker-desktop/" target="_blank">Docker Desktop for Windows</a> page and click **Download for Windows**.
+1. **Download:** Go to the [Docker installation instructions for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) page and click **Download for Windows**.
 2. **Install:** Run the `.exe` file. **Important:** During installation, ensure the box that says **"Use WSL 2 instead of Hyper-V"** is checked.
 3. **Restart:** Your computer will likely ask you to restart.
 4. **Start:** After restarting, open the "Docker Desktop" app from your Start Menu. Accept the terms of service.
 
-For more details, see the [Docker installation instructions for Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
-
 ### **For Mac Users**
-1. **Download:** Go to the [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/) page. 
+1. **Download:** Go to the [Docker installation instructions for Mac](https://docs.docker.com/desktop/setup/install/mac-install/) page. 
    - Choose **"Apple Chip"** if you have a newer Mac (M1, M2, M3).
    - Choose **"Intel Chip"** if you have an older Mac.
 2. **Install:** Open the `.dmg` file and drag the Docker icon into your **Applications** folder.
 3. **Start:** Open Docker from your Applications folder. You may need to enter your Mac password to grant it permission to run.
-
-For more details, see the [Docker installation instructions for Mac](https://docs.docker.com/desktop/setup/install/mac-install/).
 
 ---
 
