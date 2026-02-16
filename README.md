@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="images/Omni-Endo-AI.png" alt="Omni-Endo AI Header" width="100%">
+  <kbd><img src="images/Omni-Endo-AI.png" alt="Omni-Endo AI Header" width="100%"></kbd>
 </div>
 
 # OMNI-ENDO AI
@@ -29,13 +29,15 @@ Most AI tools require "API Keys"—which are essentially digital credit cards. I
 ---
 
 ## 🛠️ Step 1: Getting Ready (Installing Docker)
-To run this tool, we use a piece of software called **Docker**. Think of Docker as a "shipping container" for apps—it ensures that Omni-Endo AI runs perfectly on your computer without you having to install complicated code libraries.
+To run this tool, we use a piece of software called **Docker**. Think of Docker as a "shipping container" for applications. It ensures that Omni-Endo AI runs perfectly on your computer without you having to install and configure complicated code libraries.
 
 ### **For Windows Users**
 1. **Download:** Go to the [Docker Desktop for Windows](https://www.docker.com/products/docker-desktop/) page and click **Download for Windows**.
 2. **Install:** Run the `.exe` file. **Important:** During installation, ensure the box that says **"Use WSL 2 instead of Hyper-V"** is checked.
 3. **Restart:** Your computer will likely ask you to restart.
 4. **Start:** After restarting, open the "Docker Desktop" app from your Start Menu. Accept the terms of service.
+
+For more details, see the [Docker installation instructions for Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
 
 ### **For Mac Users**
 1. **Download:** Go to the [Docker Desktop for Mac](https://www.docker.com/products/docker-desktop/) page. 
@@ -44,15 +46,17 @@ To run this tool, we use a piece of software called **Docker**. Think of Docker 
 2. **Install:** Open the `.dmg` file and drag the Docker icon into your **Applications** folder.
 3. **Start:** Open Docker from your Applications folder. You may need to enter your Mac password to grant it permission to run.
 
+For more details, see the [Docker installation instructions for Mac](https://docs.docker.com/desktop/setup/install/mac-install/).
+
 ---
 
 ## 📂 Step 2: Setting up the Folder
 You need to get the files from this GitHub page onto your computer.
 
-1. **Download the Code:** - On this GitHub page, click the green **"<> Code"** button near the top.
-   - Click **"Download ZIP"**.
-2. **Extract:** Open your Downloads folder, right-click the zip file, and choose **"Extract All"**.
-3. **Move:** Move that extracted folder (let's call it `omni-endo-ai`) to somewhere easy to find, like your **Desktop**.
+1. **Download the Code:** - On [this GitHub page](https://github.com/rilhia/omni-endo-ai), click the green **"<> Code"** button near the top.
+   Then click **"Download ZIP"**.
+2. **Extract:** Open your Downloads folder, right-click the zip file, and choose **"Extract All"**. 
+3. **Move:** Move that extracted folder (let's call it `omni-endo-ai-main`) to somewhere easy to find, like your **Desktop**.
 
 Your folder should look like this inside:
 * `public/` (folder)
@@ -60,7 +64,8 @@ Your folder should look like this inside:
 * `docker-compose.yml`
 * `Dockerfile`
 * `server.js`
-* ...and a few other small files.
+* `package.json`
+* ...and a few other small files which are not important.
 
 ---
 
@@ -70,14 +75,18 @@ Now we tell Docker to "turn on" the tool.
 1. **Open a Terminal:**
    - **Windows:** Search for "PowerShell" in your start menu and open it.
    - **Mac:** Search for "Terminal" in Spotlight (Cmd + Space) and open it.
-2. **Go to the folder:** Type `cd` followed by a space, then drag your `omni-endo-ai` folder from your desktop directly into the terminal window. It will look something like this:
+2. **Go to the folder:** Type `cd` followed by a space, then drag your `omni-endo-ai-main` folder from your desktop directly into the terminal window. It will look something like this:
    `cd C:\Users\YourName\Desktop\omni-endo-ai`
    *Hit Enter.*
 3. **Start the Engine:** Type exactly this command and hit Enter:
    ```bash
    docker-compose up --build
    ```
+   You can copy the command above and simply paste it into your terminal.
 4. **Wait:** The first time you do this, Docker will download the "engine" (Node.js). It might take a minute or two. When you see a message saying Server running at http://localhost:4000, you are ready!
+   Your screen will look something like this when it is done.
+   
+   <kbd><img src="images/command-line-start-docker-compose.png" width="900"></kbd>
 
 ---
 
