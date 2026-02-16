@@ -10,6 +10,14 @@
 ## 🌟 What is Omni-Endo AI?
 **Omni-Endo AI** is a bridge between your diabetes data and the power of Artificial Intelligence. 
 
+### 🚀 What does it actually do?
+Omni-Endo AI acts as a sophisticated data harvester and "translator" for your diabetes management. Specifically, it:
+
+* **Aggregates Comprehensive Data:** It collects every single bolus, every blood sugar reading, and every Omnipod 5 settings change recorded between your chosen dates.
+* **Captures High-Fidelity CGM Trends:** It retrieves every individual CGM test result sent to your Omnipod (one every 5 minutes), ensuring no trend or "micro-spike" is missed.
+* **Automates Prompt Engineering:** It takes this mountain of raw data and restructures it into a professional, highly detailed prompt designed for Large Language Models (LLMs).
+* **Enables AI Consultation:** By formatting the data this way, it allows an LLM to step into the role of an endocrinologist, capable of talking you through questions about your Omnipod performance and how it is working for you.
+
 ### The "Aha!" Moment
 This project didn't start in a lab; it started with a personal frustration. While trying to integrate my diabetes data into a **Home Assistant** dashboard, I discovered that while "real-time" sync is often limited by manufacturers, the wealth of historical data stored in **Glooko** (especially from the **Omnipod 5**) is a goldmine.
 
