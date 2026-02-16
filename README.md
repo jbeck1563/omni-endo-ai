@@ -81,36 +81,89 @@ Now we tell Docker to "turn on" the tool.
 
 ---
 
-## 💻 Step 4: Using the Web Page
+## 💻 Step 4: Guided Walkthrough
 
-1. **Open your Browser:** Go to http://localhost:4000.
+### **1: Clinical Data Acquisition**
+<kbd><img src="images/usage_1.png" width="900"></kbd>
+
+When you first open the tool at http://localhost:4000, you will see the **Ingestion** screen. This is where you connect to your data source OR import previously downloaded data.
+
+---
+
+### **2: Identifying Key Fields**
+<kbd><img src="images/usage_2.png" width="900"></kbd>
+
+You start the ingestion by either importing the data from Glooko. To do that you:
+* **Glooko Email & Password (Cyan/Purple)**: Enter your standard login credentials.
+> **Privacy Note:** These details are **not** sent anywhere but Glooko. They are sent directly from your computer to Glooko's servers to fetch your data.
+* **Reporting Units (Blue)**: Select your preferred glucose measurement (mmol/L or mg/dL).
+* **Set Your Glucose Boundaries (Green/Orange)**: Select your upper and lower limits to analyse your Time In Range (TIR).
+* **Set Your Time Range (Red)**: Select the period you want to analyse. This can be a few days or longer. Remember that the more data you download, the longer it will take. This has been tested up to a year's worth of data.
+* **Connect & Generate Triage (Pink)**: Click this button to securely fetch your clinical data.
+
+OR
+
+* **Upload Offline Session (Yellow)**: If you have previously downloaded the data and want to reprocess it. This button will allow you to select the appropriate file.
    
-   <kbd><img src="images/usage_1.png" width="900"></kbd>
-2. **Enter Credentials:** Enter your Glooko login details. 
+---
 
-   <kbd><img src="images/usage_2.png" width="900"></kbd>
-   
-   > **Privacy Note:** These details are **not** sent to me. They are sent directly from your computer to Glooko's servers to fetch your data.
-3. **Generate Report:** Once the data is fetched, the tool will create a "Clinical Audit Summary". It will also give you an opportunity to save the content you have downloaded by hitting the "Save Session" button on phase 2. Needs elaborating with images.
+### **3: Initial AI Triage**
+<kbd><img src="images/usage_3.png" width="900"></kbd>
 
-   <kbd><img src="images/usage_3.png" width="900"></kbd>
+Once your data is fetched, the tool automatically moves to the **Triage** phase.
+* **Open AI Tool**: Use the links to open Gemini, ChatGPT, or Claude in a new window. Or you can select any LLM you wish.
+* **Copy Prompt for AI (Blue)**: Click the green button to copy the built-in clinical persona and your data summary seen in the display window.
+* **Save Session (Red)**: Click the white button to keep a local copy of this data on your machine. This enables you to use the "Upload Offline Session" button from the ingestion screen in the future.
 
-   <kbd><img src="images/usage_4.png" width="900"></kbd>
+---
 
-   <kbd><img src="images/usage_5.png" width="900"></kbd>
+### **4: Starting the Conversation**
+<kbd><img src="images/usage_4.png" width="900"></kbd>
 
-   <kbd><img src="images/usage_6.png" width="900"></kbd>
+Paste the content you just copied into your chosen AI. As you can see, I am using Gemini in this example. The tool has already provided the AI with a professional instruction set and a summary of your status.
 
-   <kbd><img src="images/usage_7.png" width="900"></kbd>
+---
 
-   <kbd><img src="images/usage_8.png" width="900"></kbd>
+### **5: AI Analysis & Behavioral Inquiry**
+<kbd><img src="images/usage_5.png" width="900"></kbd>
 
-   <kbd><img src="images/usage_9.png" width="900"></kbd>
-4. **The AI Hand-off:**
-   - Click the **"Copy for AI"** button.
-   - Open your favorite AI (e.g., [chatgpt.com](https://chatgpt.com)).
-   - Paste the text and hit Enter.
-   - Watch as the AI analyzes your insulin ratios, basal patterns, and glucose trends!
+The AI will analyze your data and identify anomalies. It will often ask **"Behavioral Curiosity"** questions to understand the intent behind manual corrections or specific glucose drifts before it makes a final determination. By deafult it will focus on poor results in your data. You can see it has singled out a period where my TIR was 58.4%...not great for me. You can see that it requests an audit window for more detailed data. This is where we go back to the tool.
+
+---
+
+### **6: Deep-Dive Data Extraction**
+<kbd><img src="images/usage_6.png" width="900"></kbd>
+
+If the AI identifies a **"Critical Interest Window"**, return to the Omni-Endo AI interface:
+* **Adjust Dates (Green)**: Set the start and end dates to match the window requested by the AI.
+* **Download Files**: Use the blue buttons to get your **Glucose Timeline (Red)**, **Enriched Bolus Log (Purple)**, or **Hourly Trends (Yellow)** files.
+
+These files are intended to be shared with the LLM you are using. They give detailed information on the periods which were requested. Take a look at the files to see your granular data for that period.
+
+---
+
+### **7: Providing Granular Data**
+<kbd><img src="images/usage_7.png" width="900"></kbd>
+
+Upload the JSON files you just downloaded directly into the AI chat. This gives the AI the "high-fidelity" data it needs to see how the Omnipod 5 algorithm responded to your glucose levels in real-time. Once these are uploaded, hit enter.
+
+---
+
+### **8: Clinical Determination & Strategy**
+<kbd><img src="images/usage_8.png" width="900"></kbd>
+
+The AI will finalize its audit by looking at different metabolic environments, such as your successful days vs. your not so successful days. It develops a hypothesis on why the system is succeeding or struggling to manage your levels. At this point you can add any extra questions. 
+
+---
+
+### **9: Final Directives**
+<kbd><img src="images/usage_9.png" width="900"></kbd>
+
+The process concludes with actionable directives. The AI may suggest adjustments to settings like your **Duration of Insulin Action (DIA)** or **Carb Ratio (CR)**.
+
+At this point, given the fact that this chat has focussed on your data with regard to Omnipod usage, you can continue the discussion in any way you wish. If you have any other periods of time you wish to look into in more detail from the overall period you started with, you can go back to the app to prepare that granular data to send to the LLM with your specific questions.
+
+> **Note:** Always review these suggestions with your healthcare professional before making changes to your pump settings.
 
 ---
 
