@@ -10,13 +10,37 @@
 ## 🌟 What is Omni-Endo AI?
 **Omni-Endo AI** is a bridge between your diabetes data and the power of Artificial Intelligence. 
 
-Managing Type 1 Diabetes involves a mountain of data—basal rates, insulin-to-carb ratios, and glucose trends. While systems like Glooko store this data, it can be overwhelming for a human to spot every pattern. This tool allows you to securely pull your data into a simple dashboard, where you can then "hand it over" to an AI (like ChatGPT or Claude) to act as a second pair of eyes for clinical auditing and triage.
+### The "Aha!" Moment
+This project didn't start in a lab; it started with a personal frustration. While trying to integrate my diabetes data into a **Home Assistant** dashboard, I discovered that while "real-time" sync is often limited by manufacturers, the wealth of historical data stored in **Glooko** (especially from the **Omnipod 5**) is a goldmine.
+
+I realised that if I could extract this data, I could analyze it to improve my own management. Then came the breakthrough: **What if I gave this data to a Large Language Model (LLM)?** By combining clinical data with the reasoning power of AI, I found I could uncover patterns that even months of manual logging couldn't show.
 
 ### Why I Built This
 I built this tool to put the power back into the hands of the patient. Modern healthcare is busy, and we often only get 15 minutes with a consultant every few months. This tool allows you to:
 1. **Be Proactive:** Spot trends before your next appointment.
 2. **Be Private:** Your data stays on your machine.
 3. **Be Flexible:** You choose which AI helps you.
+
+---
+
+## 🔒 Privacy & Security: Your Data, Your Control
+Because this involves sensitive medical credentials and data, I have designed this tool with a **"Zero-Server" architecture**.
+
+* **No Middle Man:** Your Glooko username and password never leave your machine. They are sent directly from your local Docker container to the Glooko servers. No other machine or third-party server ever sees your credentials.
+* **Closed Loop:** The analysis happens entirely on your choice of LLM (ChatGPT, Claude, Gemini).
+* **Training Data Warning:** While Omni-Endo AI is secure, most AI companies (like OpenAI or Google) have settings that allow them to "train" their models on your conversations. 
+
+> [!IMPORTANT]
+> I highly recommend going into your AI settings (e.g., ChatGPT Settings > Data Controls) and **turning off "Chat History & Training"** before pasting your clinical data to ensure your medical history remains private.
+
+---
+
+## 🧠 The "Tough Love" AI Persona
+I have purposefully configured the built-in AI prompt to act as a **"Tough Love" Endocrinologist**. 
+
+Managing Type 1 Diabetes is hard, but placating a user doesn't improve Time-in-Range (TIR). The AI is designed to be direct, analytical, and uncompromising. It won't sugar-coat the data; it will tell you exactly where your bolus timing is off, where you are over-correcting, or where your basal rates are failing to catch a drift.
+
+---
 
 ### 🧠 The "No-API" Philosophy (Why this is different)
 Most AI tools require "API Keys"—which are essentially digital credit cards. If I had built this using APIs:
