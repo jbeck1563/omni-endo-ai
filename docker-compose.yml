@@ -1,0 +1,9 @@
+services:
+  omni-endo-ai:
+    build: .
+    container_name: omni-endo-ai
+    ports:
+      - "4000:4000"
+    restart: always
+    environment:
+      - PORT=4000
