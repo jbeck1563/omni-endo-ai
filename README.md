@@ -195,5 +195,22 @@ When you are finished, go back to your Terminal/PowerShell window and press **Ct
 **1. "Port already in use":** 
 If you see an error about port 4000, another app is using it. Open docker-compose.yml in Notepad and change "4000:4000" to "5000:4000", restart the Docker container and then try again at http://localhost:5000.
 
+---
+
+## 📬 Get in Touch
+
+Whether you're having trouble with Docker or want to share how the AI audit improved your TIR (Time in Range), I'm happy to help!
+
+### **Technical Help**
+If the tool isn't running correctly, please **[Open an Issue](https://github.com/rilhia/omni-endo-ai/issues)**. This allows other users to benefit from the solution.
+
+### **Personal & Professional**
+For private inquiries or professional networking, you can find me here:
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/rilhia/)
+
+> [!NOTE]
+> **Privacy Reminder:** If you send me a screenshot for support, please ensure you have blurred out any private medical information or Glooko credentials.
+
 ### **Disclaimer**
 *This tool is for informational and educational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition. Use of AI analysis should always be reviewed by a qualified clinical professional before making any changes to your insulin therapy or medical regimen.*
