@@ -2,10 +2,6 @@
   "name": "omni-endo-ai",
   "type": "module",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "fetch-cookie": "^3.0.0",
-    "node-fetch": "^3.3.1",
-    "tough-cookie": "^5.1.0"
+    "express": "^4.18.2"
   }
 }

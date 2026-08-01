@@ -7,6 +7,47 @@
 
 ---
 
+> [!NOTE]
+> ## This is a fork
+>
+> Upstream, and all credit for this tool: **[rilhia/omni-endo-ai](https://github.com/rilhia/omni-endo-ai)**.
+> Everything below this banner is the original author's documentation. This fork exists for one
+> deployment and changes one thing; if you want the real project, go upstream.
+>
+> ### What changed
+>
+> **The Glooko email and password fields are gone, and so is the login proxy behind them.**
+> Upstream, the page asks for your Glooko credentials, posts them to its own `/my-data`
+> handler, and that handler logs into Glooko on your behalf. Here the page posts only a date
+> range, and `server.js` is a plain static file server — the handler, its cookie-jar login
+> flow, and the `node-fetch` / `fetch-cookie` / `tough-cookie` / `cors` dependencies are
+> deleted.
+>
+> ### How it works instead
+>
+> `/my-data` is answered by **[jbeck1563/omni-endo-ai-mcp](https://github.com/jbeck1563/omni-endo-ai-mcp)**
+> (a fork of [rilhia/omni-endo-ai-mcp](https://github.com/rilhia/omni-endo-ai-mcp)), which
+> already holds a Glooko session and returns the identical
+> `{startDate, endDate, data1, data2, data3}` payload this page expects. A reverse proxy
+> routes `/my-data` on this origin to that server; everything else is served from here.
+> Because the request is same-origin, the browser replays whatever credential loaded the
+> page, and that is what authorises the call.
+>
+> ### Why
+>
+> Two apps were each logging into Glooko separately — two sessions, and a password typed into
+> a web page on every use. Now there is one session, held server-side, and no credential in
+> the browser. The deleted code was precisely the part that accepted and forwarded those
+> credentials, so it was removed rather than left dead.
+>
+> ### Consequence
+>
+> **This fork is not standalone.** Without something answering `/my-data` on the same origin,
+> the page loads but "Connect & Generate Triage" fails. Loading a previously downloaded
+> session file still works offline. Use upstream if you want the self-contained version.
+
+---
+
 ## 🌟 What is Omni-Endo AI?
 **Omni-Endo AI** is a bridge between your diabetes data and the power of Artificial Intelligence. 
 

@@ -139,6 +139,12 @@
             }
         }
 
+        .source-note {
+            margin: -10px 0 25px;
+            color: var(--text-muted, #64748b);
+            font-size: 0.9rem;
+        }
+
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -286,9 +292,9 @@
 
         <div id="step1Container" class="card">
             <h3>Clinical Data Acquisition</h3>
+            <p class="source-note">Pulled server-side from an existing Glooko session &mdash; no
+                login needed here.</p>
             <div class="grid-3">
-                <div class="input-group"><label>Glooko Email</label><input type="email" id="username"></div>
-                <div class="input-group"><label>Glooko Password</label><input type="password" id="password"></div>
                 <div class="input-group">
                     <label>Reporting Units</label>
                     <select id="unitToggle">
@@ -296,12 +302,12 @@
                         <option value="mgdl">mg/dL (US/Traditional)</option>
                     </select>
                 </div>
-            </div>
-            <div class="grid-3">
                 <div class="input-group"><label>Analysis Window Start</label><input type="datetime-local" id="start"
                         step="0.001"></div>
                 <div class="input-group"><label>Analysis Window End</label><input type="datetime-local" id="end"
                         step="0.001"></div>
+            </div>
+            <div class="grid-3">
                 <div style="display:flex; gap:10px;">
                     <div class="input-group" style="flex:1"><label>Hypo</label><input type="number" id="lowerLimit"
                             value="3.9" step="0.1"></div>
@@ -756,15 +762,15 @@ Analysis Period: ${days.toFixed(2)} days
 
 
         document.getElementById('fetchBtn').onclick = async () => {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            if (!user || !pass) return alert("Credentials required.");
             document.getElementById('loading').style.display = "block";
             document.getElementById('status').innerText = "Connecting...";
             try {
+                // No credentials in the body: the server holds the Glooko session. The
+                // request is same-origin, so the browser replays whatever credential
+                // was used to load this page, which is what authorises /my-data.
                 const res = await fetch(`/my-data`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: user, password: pass, startDate: new Date(document.getElementById('start').value).toISOString(), endDate: new Date(document.getElementById('end').value).toISOString() })
+                    body: JSON.stringify({ startDate: new Date(document.getElementById('start').value).toISOString(), endDate: new Date(document.getElementById('end').value).toISOString() })
                 });
                 const master = await res.json();
                 if (master.error) throw new Error(master.error);
