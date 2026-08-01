@@ -292,8 +292,8 @@
 
         <div id="step1Container" class="card">
             <h3>Clinical Data Acquisition</h3>
-            <p class="source-note">Pulled server-side from an existing Glooko session &mdash; no
-                login needed here.</p>
+            <p class="source-note">Loaded automatically from the server's Glooko session &mdash; no
+                login, no upload. Adjust the window below and press Reload to re-pull.</p>
             <div class="grid-3">
                 <div class="input-group">
                     <label>Reporting Units</label>
@@ -317,7 +317,7 @@
             </div>
             <div
                 style="margin-top: 30px; display: flex; gap: 20px; align-items: center; border-top: 1px solid var(--border); padding-top: 30px;">
-                <button id="fetchBtn" class="btn-primary">Connect & Generate Triage</button>
+                <button id="fetchBtn" class="btn-primary">Reload &amp; Generate Triage</button>
                 <input type="file" id="fileUpload" class="hidden" accept=".json">
                 <button onclick="document.getElementById('fileUpload').click()" class="btn-secondary">Upload Offline
                     Session</button>
@@ -761,9 +761,9 @@ Analysis Period: ${days.toFixed(2)} days
 
 
 
-        document.getElementById('fetchBtn').onclick = async () => {
+        async function loadFromServer() {
             document.getElementById('loading').style.display = "block";
-            document.getElementById('status').innerText = "Connecting...";
+            document.getElementById('status').innerText = "Pulling from Glooko...";
             try {
                 // No credentials in the body: the server holds the Glooko session. The
                 // request is same-origin, so the browser replays whatever credential
@@ -772,12 +772,30 @@ Analysis Period: ${days.toFixed(2)} days
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ startDate: new Date(document.getElementById('start').value).toISOString(), endDate: new Date(document.getElementById('end').value).toISOString() })
                 });
+                // A proxy error (502/503 while the backend restarts) returns HTML, not
+                // JSON, so check the status before parsing or res.json() throws something
+                // unhelpful like "Unexpected token '<'".
+                if (!res.ok) {
+                    throw new Error(res.status === 503
+                        ? "Data service unavailable — it may be restarting. Try again in a moment."
+                        : `Request failed (HTTP ${res.status}).`);
+                }
                 const master = await res.json();
                 if (master.error) throw new Error(master.error);
                 await finalizeDataLoad(master);
-            } catch (err) { document.getElementById('status').innerText = "Error: " + err.message; }
+            } catch (err) {
+                document.getElementById('status').innerText = "Error: " + err.message + " — press Reload to retry.";
+                setStep(1);
+            }
             finally { document.getElementById('loading').style.display = "none"; }
-        };
+        }
+
+        document.getElementById('fetchBtn').onclick = loadFromServer;
+
+        // There is no login step any more, so there is nothing for the user to do before
+        // the data can be fetched — pull it on load and land on the Triage step. Step 1
+        // stays reachable for changing the window or units, with Reload to re-pull.
+        loadFromServer();
 
         document.getElementById('fileUpload').onchange = (e) => {
             const reader = new FileReader();
