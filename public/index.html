@@ -783,6 +783,8 @@ Analysis Period: ${days.toFixed(2)} days
                 const master = await res.json();
                 if (master.error) throw new Error(master.error);
                 await finalizeDataLoad(master);
+                document.getElementById('status').innerText =
+                    "Loaded " + new Date().toLocaleTimeString() + ".";
             } catch (err) {
                 document.getElementById('status').innerText = "Error: " + err.message + " — press Reload to retry.";
                 setStep(1);
